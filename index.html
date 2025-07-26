@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Life Target</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000000;
+      color: white;
+    }
+
+    h1 {
+      text-align: center;
+      color: violet;
+      margin-top: 30px;
+    }
+
+    .filter-bar {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .filter-btn {
+      background-color: violet;
+      color: black;
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .filter-btn:hover {
+      background-color: #aa00ff;
+      color: white;
+    }
+
+    .target-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .target-card {
+      background-color: #1a1a2e;
+      color: #aaffcc;
+      padding: 20px;
+      border-radius: 15px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .target-card:hover {
+      transform: scale(1.05);
+    }
+
+    .category {
+      font-size: 0.9em;
+      font-weight: bold;
+      color: #ffcc00;
+    }
+
+    .thesis-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      background-color: violet;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .thesis-btn:hover {
+      background-color: #aa00ff;
+      color: white;
+    }
+
+    @media (max-width: 600px) {
+      .target-card {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎯 My Life Target</h1>
+
+  <div class="filter-bar">
+    <button class="filter-btn" onclick="filterCategory('all')">All</button>
+    <button class="filter-btn" onclick="filterCategory('career')">Career</button>
+    <button class="filter-btn" onclick="filterCategory('health')">Health</button>
+    <button class="filter-btn" onclick="filterCategory('mission')">Mission</button>
+  </div>
+
+  <div class="target-container" id="targetContainer">
+    
+    <!-- Example Targets -->
+    <div class="target-card" data-category="career">
+      <div class="category">Career</div>
+      <h3>Get IAS Selection</h3>
+      <p>My ultimate goal is to crack the UPSC and become an IAS officer in my first attempt.</p>
+      <a class="thesis-btn" href="thesis/ias.pdf" target="_blank">📄 Thesis</a>
+    </div>
+
+    <div class="target-card" data-category="career">
+      <div class="category">Career</div>
+      <h3>Rank 1 in College</h3>
+      <p>Focus on political science and philosophy to top the honours batch.</p>
+      <a class="thesis-btn" href="thesis/rank1.pdf" target="_blank">📄 Thesis</a>
+    </div>
+
+    <div class="target-card" data-category="health">
+      <div class="category">Health</div>
+      <h3>Gain Healthy Weight</h3>
+      <p>Reach 52kg naturally without supplements or non-veg food.</p>
+      <a class="thesis-btn" href="thesis/weight.pdf" target="_blank">📄 Thesis</a>
+    </div>
+
+    <div class="target-card" data-category="career">
+      <div class="category">Career</div>
+      <h3>Improve Coding Rank</h3>
+      <p>Increase rank in coding platforms like LeetCode, HackerRank, and Codeforces.</p>
+      <a class="thesis-btn" href="thesis/coding.pdf" target="_blank">📄 Thesis</a>
+    </div>
+
+    <div class="target-card" data-category="mission">
+      <div class="category">Mission</div>
+      <h3>GodX Elite Card Launch</h3>
+      <p>Successfully build and release the 'Elite Card' Flutter app to global market.</p>
+      <a class="thesis-btn" href="thesis/elitecard.pdf" target="_blank">📄 Thesis</a>
+    </div>
+
+  </div>
+
+  <script>
+    function filterCategory(category) {
+      const cards = document.querySelectorAll('.target-card');
+      cards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        if (category === 'all' || cardCategory === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
