@@ -2,90 +2,72 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Life Target</title>
+  <title>🎯 My Life Target</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
+      background-color: #0f0f1a;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #ffffff;
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #000000;
-      color: white;
+      padding: 20px;
     }
-
     h1 {
+      color: #d3a2ff;
       text-align: center;
-      color: violet;
-      margin-top: 30px;
+      margin-bottom: 30px;
+      font-size: 2.5em;
     }
-
-    .filter-bar {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .filter-btn {
-      background-color: violet;
-      color: black;
-      padding: 10px 20px;
-      margin: 5px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .filter-btn:hover {
-      background-color: #aa00ff;
-      color: white;
-    }
-
-    .target-container {
+    .search-filter {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
-      padding: 20px;
+      gap: 10px;
+      margin-bottom: 30px;
     }
-
+    .search-filter input, .search-filter select {
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+    }
+    .target-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
     .target-card {
-      background-color: #1a1a2e;
-      color: #aaffcc;
+      background: #1a1a2e;
+      border-radius: 20px;
       padding: 20px;
-      border-radius: 15px;
-      width: 300px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 10px #d3a2ff44;
       transition: transform 0.3s ease;
     }
-
     .target-card:hover {
-      transform: scale(1.05);
+      transform: scale(1.03);
     }
-
-    .category {
-      font-size: 0.9em;
-      font-weight: bold;
-      color: #ffcc00;
+    .target-card h3 {
+      color: #a7f3d0;
+      margin-bottom: 10px;
     }
-
-    .thesis-btn {
+    .target-card p {
+      margin: 5px 0;
+      font-size: 0.95em;
+    }
+    .target-card a {
       display: inline-block;
       margin-top: 10px;
       padding: 10px 15px;
-      background-color: violet;
-      color: black;
-      border: none;
-      border-radius: 5px;
+      background: #a855f7;
+      color: white;
+      border-radius: 8px;
       text-decoration: none;
       font-weight: bold;
+      transition: background 0.3s;
     }
-
-    .thesis-btn:hover {
-      background-color: #aa00ff;
-      color: white;
-    }
-
-    @media (max-width: 600px) {
-      .target-card {
-        width: 90%;
-      }
+    .target-card a:hover {
+      background: #9333ea;
     }
   </style>
 </head>
@@ -93,65 +75,65 @@
 
   <h1>🎯 My Life Target</h1>
 
-  <div class="filter-bar">
-    <button class="filter-btn" onclick="filterCategory('all')">All</button>
-    <button class="filter-btn" onclick="filterCategory('career')">Career</button>
-    <button class="filter-btn" onclick="filterCategory('health')">Health</button>
-    <button class="filter-btn" onclick="filterCategory('mission')">Mission</button>
+  <div class="search-filter">
+    <input type="text" id="searchBar" placeholder="🔍 Search your problems...">
+    <select id="categoryFilter">
+      <option value="">All Categories</option>
+      <option value="personal">🧠 Personal</option>
+      <option value="health">💪 Health</option>
+      <option value="education">📚 Education</option>
+      <option value="business">🏢 Business</option>
+      <!-- Add more categories as needed -->
+    </select>
   </div>
 
-  <div class="target-container" id="targetContainer">
-    
-    <!-- Example Targets -->
-    <div class="target-card" data-category="career">
-      <div class="category">Career</div>
-      <h3>Get IAS Selection</h3>
-      <p>My ultimate goal is to crack the UPSC and become an IAS officer in my first attempt.</p>
-      <a class="thesis-btn" href="thesis/ias.pdf" target="_blank">📄 Thesis</a>
+  <div class="target-container" id="targetList">
+    <!-- Example Entry Start -->
+    <div class="target-card" data-category="education">
+      <h3>📌 Target 1 : Close Voting System </h3>
+      <p>💡 Solution: By Introduce Grade System.</p>
+      <a href="https://docs.google.com/document/d/1rD60LPh4Ep4iLBCBKo5MBtFVOqf2BVQb8Bo27iD0gzk/edit?usp=drivesdk" target="_blank">📄 Download Thesis</a>
     </div>
-
-    <div class="target-card" data-category="career">
-      <div class="category">Career</div>
-      <h3>Rank 1 in College</h3>
-      <p>Focus on political science and philosophy to top the honours batch.</p>
-      <a class="thesis-btn" href="thesis/rank1.pdf" target="_blank">📄 Thesis</a>
-    </div>
-
-    <div class="target-card" data-category="health">
-      <div class="category">Health</div>
-      <h3>Gain Healthy Weight</h3>
-      <p>Reach 52kg naturally without supplements or non-veg food.</p>
-      <a class="thesis-btn" href="thesis/weight.pdf" target="_blank">📄 Thesis</a>
-    </div>
-
-    <div class="target-card" data-category="career">
-      <div class="category">Career</div>
-      <h3>Improve Coding Rank</h3>
-      <p>Increase rank in coding platforms like LeetCode, HackerRank, and Codeforces.</p>
-      <a class="thesis-btn" href="thesis/coding.pdf" target="_blank">📄 Thesis</a>
-    </div>
-
-    <div class="target-card" data-category="mission">
-      <div class="category">Mission</div>
-      <h3>GodX Elite Card Launch</h3>
-      <p>Successfully build and release the 'Elite Card' Flutter app to global market.</p>
-      <a class="thesis-btn" href="thesis/elitecard.pdf" target="_blank">📄 Thesis</a>
-    </div>
-
+    <!-- Example Entry End -->
+<div class="target-card" data-category="education">
+  <h3>📌 Problem 2 : Impliment Point System in Politics.</h3>
+  <p>💡 Solution: By Introduce Grade System.</p>
+  <a href="Google Drive Link" target="_blank">📄 Download Thesis</a>
+</div>
+ <div class="target-card" data-category="education">
+  <h3>📌 Problem 3 : IAS become real Government. (SUB)</h3>
+  <p>💡 Solution: By Introduce Grade System.</p>
+  <a href="Google Drive Link" target="_blank">📄 Download Thesis</a>
+</div>
+    <!-- You can copy-paste the block above and change content to add more -->
   </div>
 
   <script>
-    function filterCategory(category) {
-      const cards = document.querySelectorAll('.target-card');
+    const searchBar = document.getElementById('searchBar');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const cards = document.querySelectorAll('.target-card');
+
+    function filterCards() {
+      const search = searchBar.value.toLowerCase();
+      const category = categoryFilter.value;
+
       cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
         const cardCategory = card.getAttribute('data-category');
-        if (category === 'all' || cardCategory === category) {
+
+        const matchesSearch = text.includes(search);
+        const matchesCategory = !category || cardCategory === category;
+
+        if (matchesSearch && matchesCategory) {
           card.style.display = 'block';
         } else {
           card.style.display = 'none';
         }
       });
     }
+
+    searchBar.addEventListener('input', filterCards);
+    categoryFilter.addEventListener('change', filterCards);
   </script>
 
 </body>
