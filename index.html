@@ -1,199 +1,131 @@
-<!DOCTYPE html><html lang="en"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Life Target</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #0e0e0e;
-            color: #ffffff;
-            font-family: 'Orbitron', sans-serif;
-        }header {
-        background: linear-gradient(90deg, #2c0050, #5e1d8a);
-        padding: 1rem;
-        text-align: center;
-        font-size: 2rem;
-        font-weight: bold;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎯 My Life Target</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #0f0f1a;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #ffffff;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #d3a2ff;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5em;
+    }
+    .search-filter {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    .search-filter input, .search-filter select {
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+    }
+    .target-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .target-card {
+      background: #1a1a2e;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 0 10px #d3a2ff44;
+      transition: transform 0.3s ease;
+    }
+    .target-card:hover {
+      transform: scale(1.03);
+    }
+    .target-card h3 {
+      color: #a7f3d0;
+      margin-bottom: 10px;
+    }
+    .target-card p {
+      margin: 5px 0;
+      font-size: 0.95em;
+    }
+    .target-card a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #a855f7;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    .target-card a:hover {
+      background: #9333ea;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎯 My Life Target</h1>
+
+  <div class="search-filter">
+    <input type="text" id="searchBar" placeholder="🔍 Search your problems...">
+    <select id="categoryFilter">
+      <option value="">All Categories</option>
+      <option value="personal">🧠 Personal</option>
+      <option value="health">💪 Health</option>
+      <option value="education">📚 Education</option>
+      <option value="business">🏢 Business</option>
+      <!-- Add more categories as needed -->
+    </select>
+  </div>
+
+  <div class="target-container" id="targetList">
+    <!-- Example Entry Start -->
+    <div class="target-card" data-category="education">
+      <h3>📌 Problem: I failed in Class 11</h3>
+      <p>💡 Solution: I changed my mindset, restructured my day, and bounced back stronger in Class 12.</p>
+      <a href="https://docs.google.com/document/d/1rD60LPh4Ep4iLBCBKo5MBtFVOqf2BVQb8Bo27iD0gzk/edit?usp=drivesdk" target="_blank">📄 Download Thesis</a>
+    </div>
+    <!-- Example Entry End -->
+
+    <!-- You can copy-paste the block above and change content to add more -->
+  </div>
+
+  <script>
+    const searchBar = document.getElementById('searchBar');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const cards = document.querySelectorAll('.target-card');
+
+    function filterCards() {
+      const search = searchBar.value.toLowerCase();
+      const category = categoryFilter.value;
+
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        const cardCategory = card.getAttribute('data-category');
+
+        const matchesSearch = text.includes(search);
+        const matchesCategory = !category || cardCategory === category;
+
+        if (matchesSearch && matchesCategory) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     }
 
-    #searchBar {
-        width: 80%;
-        padding: 0.5rem;
-        margin: 1rem auto;
-        display: block;
-        border-radius: 10px;
-        border: none;
-        font-size: 1rem;
-    }
+    searchBar.addEventListener('input', filterCards);
+    categoryFilter.addEventListener('change', filterCards);
+  </script>
 
-    .filters {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-bottom: 1rem;
-    }
-
-    .filters button {
-        margin: 0.3rem;
-        background-color: #5e1d8a;
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        cursor: pointer;
-    }
-
-    .problem {
-        background-color: #1e1e1e;
-        margin: 1rem;
-        padding: 1rem;
-        border-radius: 15px;
-        box-shadow: 0 0 10px #5e1d8a;
-    }
-
-    .problem h2 {
-        margin-top: 0;
-        color: #d7a5ff;
-    }
-
-    .problem button {
-        background-color: #8a2be2;
-        color: white;
-        padding: 0.5rem;
-        margin-top: 0.5rem;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-
-    #addProblemForm {
-        background-color: #1e1e1e;
-        padding: 1rem;
-        margin: 1rem;
-        border-radius: 15px;
-    }
-
-    #addProblemForm input,
-    #addProblemForm textarea {
-        width: 100%;
-        margin: 0.5rem 0;
-        padding: 0.5rem;
-        border-radius: 10px;
-        border: none;
-    }
-
-    #addProblemForm button {
-        background-color: #5e1d8a;
-        color: white;
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-</style>
-
-</head><body>
-    <header>My Life Target</header>
-    <input type="text" id="searchBar" placeholder="Search life problems or solutions..."><div class="filters">
-    <button onclick="filterByCategory('All')">All</button>
-    <button onclick="filterByCategory('Relationship')">Relationship</button>
-    <button onclick="filterByCategory('Education')">Education</button>
-    <button onclick="filterByCategory('Health')">Health</button>
-    <button onclick="filterByCategory('Career')">Career</button>
-</div>
-
-<div id="problemsContainer"></div>
-
-<form id="addProblemForm">
-    <h3>Add New Problem</h3>
-    <input type="text" id="title" placeholder="Problem Title" required>
-    <input type="text" id="category" placeholder="Category (e.g. Career, Relationship)" required>
-    <textarea id="solution" placeholder="Solution" required></textarea>
-    <input type="url" id="thesisUrl" placeholder="Thesis PDF URL">
-    <button type="submit">Add Problem</button>
-</form>
-
-<script>
-    const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_AUTH_DOMAIN",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_BUCKET",
-        messagingSenderId: "YOUR_MESSAGING_ID",
-        appId: "YOUR_APP_ID"
-    };
-
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    const problemsContainer = document.getElementById("problemsContainer");
-    const searchBar = document.getElementById("searchBar");
-    const form = document.getElementById("addProblemForm");
-
-    function renderProblem(doc) {
-        const problem = document.createElement("div");
-        problem.classList.add("problem");
-
-        problem.innerHTML = `
-            <h2>${doc.data().title}</h2>
-            <p><strong>Category:</strong> ${doc.data().category}</p>
-            <p>${doc.data().solution}</p>
-            ${doc.data().thesisUrl ? `<a href="${doc.data().thesisUrl}" target="_blank"><button>Thesis Download</button></a>` : ""}
-        `;
-
-        problemsContainer.appendChild(problem);
-    }
-
-    db.collection("problems").onSnapshot(snapshot => {
-        problemsContainer.innerHTML = "";
-        snapshot.docs.forEach(doc => {
-            renderProblem(doc);
-        });
-    });
-
-    searchBar.addEventListener("input", () => {
-        const value = searchBar.value.toLowerCase();
-        const allProblems = document.querySelectorAll(".problem");
-
-        allProblems.forEach(problem => {
-            const text = problem.innerText.toLowerCase();
-            problem.style.display = text.includes(value) ? "block" : "none";
-        });
-    });
-
-    function filterByCategory(category) {
-        const allProblems = document.querySelectorAll(".problem");
-
-        allProblems.forEach(problem => {
-            if (category === "All" || problem.innerText.includes(category)) {
-                problem.style.display = "block";
-            } else {
-                problem.style.display = "none";
-            }
-        });
-    }
-
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const title = document.getElementById("title").value;
-        const category = document.getElementById("category").value;
-        const solution = document.getElementById("solution").value;
-        const thesisUrl = document.getElementById("thesisUrl").value;
-
-        await db.collection("problems").add({
-            title,
-            category,
-            solution,
-            thesisUrl
-        });
-
-        form.reset();
-    });
-</script>
-
-</body></html>
+</body>
+</html>
